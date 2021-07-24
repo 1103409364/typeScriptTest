@@ -7,7 +7,7 @@ interface Dog {
   fly: boolean;
   bark: () => {};
 }
-// 联合类型（A|B 竖线分隔） 类型保护
+// 1联合类型（A|B 竖线分隔） 类型保护
 function trainAnimal(animal: Bird | Dog) {
   // animal.sing(); // 报错，ts 不知道是哪种类型
   // if (animal.fly) {
@@ -29,7 +29,7 @@ function trainAnimal2(animal: Bird | Dog) {
     animal.bark();
   }
 }
-//
+//3typeof
 function add(a: string | number, b: string | number) {
   if (typeof a === "string" || typeof b === "string") {
     return `${a} ${b}`;
@@ -40,7 +40,7 @@ function add(a: string | number, b: string | number) {
 class NumberObj {
   count: number;
 }
-// NumberObj 不能是interface，因为它不支持instanceof
+// 4instanceof NumberObj 不能是interface，因为它不支持instanceof
 function addSecond(a: object | NumberObj, b: number | NumberObj) {
   if (a instanceof NumberObj && b instanceof NumberObj) {
     return a.count + b.count;
