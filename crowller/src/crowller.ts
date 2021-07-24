@@ -3,54 +3,37 @@
 import fs from 'fs';
 import path from 'path';
 import superagent from 'superagent';
-import cheerio from 'cheerio';
+import Analyzer1 from './analyzer';
 
-interface ImgData {
-  src: string | undefined;
-  time: number;
-}
-
-interface Content {
-  [propName: number]: ImgData;
+// 自定义类型
+export interface Analyzer {
+  analyze: (html: string, filePath: string) => string;
 }
 
 class Crowller {
-  private url = 'https://baidu.com';
-
-  constructor() {
+  private filePath = path.resolve(__dirname, '../data/imgData.json');
+  private url = '';
+  constructor(private analyzer: Analyzer, url: string) {
+    this.url = url;
     this.initSpiderProcess();
   }
 
-  async getRawHtml() {
+  private writeFile(content: string) {
+    fs.writeFileSync(this.filePath, content);
+  }
+
+  private async getRawHtml() {
     const res = await superagent.get(this.url);
     return res.text;
     // this.getInfo(res.text);
   }
 
-  async initSpiderProcess() {
+  private async initSpiderProcess() {
     const html = await this.getRawHtml();
-    const res = this.getInfo(html);
-    this.generateJsonContent(res);
-  }
-
-  getInfo(rawHtml: string) {
-    const $ = cheerio.load(rawHtml);
-    const img = $('#s_lg_img');
-    return { src: img.attr('src'), time: new Date().getTime() };
-    // return { src: img.attr('src'), time: new Date().getTime };
-  }
-
-  generateJsonContent(res: ImgData) {
-    const filePath = path.resolve(__dirname, '../data/imgData.json');
-    let fileContent: Content = {};
-    if (fs.existsSync(filePath)) {
-      fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-      console.log(fileContent);
-    }
-
-    fileContent[res.time] = res;
-    fs.writeFileSync(filePath, JSON.stringify(fileContent));
+    const fileContent = this.analyzer.analyze(html, this.filePath);
+    this.writeFile(fileContent);
   }
 }
-
-const crowller = new Crowller();
+const url = 'https://baidu.com';
+const analyzer = Analyzer1.getInstance();
+const crowller = new Crowller(analyzer, url);
