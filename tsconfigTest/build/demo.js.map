@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "demo.js",
+  "sourceRoot": "",
+  "sources": [
+    "../src/demo.ts"
+  ],
+  "names": [],
+  "mappings": "AAAA,IAAM,OAAO,GAAW,aAAa,CAAC;AAEtC,SAAS,IAAI,CAAC,CAAM;IAClB,OAAO,CAAC,GAAG,CAAC,CAAC,CAAC,CAAC;AACjB,CAAC"
+}

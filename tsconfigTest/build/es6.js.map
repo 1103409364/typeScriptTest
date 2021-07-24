@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "es6.js",
+  "sourceRoot": "",
+  "sources": [
+    "../src/es6.js"
+  ],
+  "names": [],
+  "mappings": "AAAA,IAAM,CAAC,GAAG,CAAC,CAAC"
+}
