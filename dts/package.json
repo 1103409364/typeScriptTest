@@ -1,0 +1,14 @@
+{
+  "name": "dts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "parcel ./src/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.0.0-beta.3.1"
+  }
+}
