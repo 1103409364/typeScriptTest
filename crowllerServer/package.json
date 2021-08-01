@@ -1,0 +1,33 @@
+{
+  "name": "ex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:build": "tsc -w",
+    "dev:start": "nodemon node ./build/index.js",
+    "dev": "concurrently yarn dev:build & yarn dev:start",
+    "dev*": "tsc && concurrently yarn:dev:*"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "test/*",
+      "data/*"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/superagent": "^4.1.12",
+    "concurrently": "^6.2.0",
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "express": "^4.17.1",
+    "superagent": "^6.1.0"
+  }
+}
