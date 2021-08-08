@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express'; // ctrl 点击跳转到dts查看相应的类型
 import bodyParser from 'body-parser';
+import cookieSession from 'cookie-session';
 import router from './router';
 // express 等老的非ts 写的框架会有这些问题：
 // 问题 1: express 库的类型定义文件.d.ts 文件类型描述不准确
@@ -11,6 +12,9 @@ import router from './router';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+  cookieSession({ name: 'session', keys: ['tt'], maxAge: 24 * 60 * 60 * 1000 })
+);
 // 中间件修改req
 app.use((req: Request, res: Response, next: NextFunction) => {
   req.test = '中间件'; // Property 'teacherName1' does not exist on type
