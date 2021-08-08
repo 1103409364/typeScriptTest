@@ -11,7 +11,7 @@ export interface Analyzer {
 }
 
 class Crowller {
-  private filePath = path.resolve(__dirname, '../data/imgData.json');
+  private filePath = path.resolve(__dirname, '../../data/imgData.json');
   private url = '';
   constructor(private analyzer: Analyzer, url: string) {
     this.url = url;

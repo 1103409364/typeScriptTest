@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express'; // ctrl 点击跳转到dts查看相应的类型
+import express from 'express'; // ctrl 点击跳转到dts查看相应的类型
 import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
 import router from './router';
@@ -15,11 +15,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   cookieSession({ name: 'session', keys: ['tt'], maxAge: 24 * 60 * 60 * 1000 })
 );
-// 中间件修改req
-app.use((req: Request, res: Response, next: NextFunction) => {
-  req.test = '中间件'; // Property 'teacherName1' does not exist on type
-  next();
-});
+
+//import  { NextFunction, Request, Response } from 'express';
+// // 中间件修改req
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   req.test = '中间件'; // Property 'teacherName1' does not exist on type
+//   next();
+// });
 app.use(router);
 
 // 路由多的时候，把相关代码独立到路由文件router.ts中
