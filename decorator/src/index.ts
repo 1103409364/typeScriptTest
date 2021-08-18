@@ -38,7 +38,7 @@ function testDecoratorFactory() {
     };
   };
 }
-
+// 修饰目标类
 const Test2 = testDecoratorFactory()(
   class {
     name: string;
