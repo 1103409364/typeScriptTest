@@ -1,9 +1,11 @@
-// 方法的装饰器
-// 1 普通方法 target 对应的是类的 prototype
-// 2 静态方法 target 对应的是类的 构造方法
-// 3 第三个参数：属性描述对象PropertyDescriptor
 // 类似 Object.defineProperty() 的第三个参数
 // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+/**
+ * 方法的装饰器
+ * @param target 普通方法 target 对应的是类的 prototype，静态方法 target 对应的是类的 构造方法
+ * @param key 方法名
+ * @param descriptor 属性描述对象PropertyDescriptor
+ */
 function getNameDecorator(
   target: any,
   key: string,
@@ -12,7 +14,7 @@ function getNameDecorator(
   // descriptor.value = function () {
   //   console.log(123456);
   // };
-  descriptor.writable = false;
+  // descriptor.writable = false; // 禁止修改
 
   console.log(target, key);
 }
@@ -43,7 +45,8 @@ class Test {
 
 const test = new Test("hello world");
 test.getName = function () {
-  console.log("123");
+  return "123";
 };
-// console.log(test.getName());
-console.log(Test.getNumber());
+
+console.log(test.getName());
+// console.log(Test.getNumber());
