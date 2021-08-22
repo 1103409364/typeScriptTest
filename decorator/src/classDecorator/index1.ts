@@ -1,7 +1,11 @@
-// 1 类的装饰器
 // 装饰器本身是一个函数
 // 类装饰器接收的参数是构造函数
 // 装饰器通过 @ 符号使用
+
+/**
+ * 类的装饰器
+ * @param constructor
+ */
 function testDecorator1(constructor: any) {
   constructor.prototype.getName = () => {
     console.log(123);
