@@ -30,9 +30,9 @@ function catchError(
 function catchErrorFactory(errorInfo: string) {
   return function (target: any, key: string, descriptor: PropertyDescriptor) {
     const fn = descriptor.value;
-    descriptor.value = function () {
+    descriptor.value = function (...rest: any) {
       try {
-        fn();
+        fn.call(this, ...rest);
       } catch (e) {
         console.log(errorInfo);
       }
