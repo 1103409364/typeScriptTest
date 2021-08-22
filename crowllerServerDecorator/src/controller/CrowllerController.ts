@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import fs from 'fs';
 import path from 'path';
 import { Request, Response, NextFunction } from 'express';
-import { controller, get, catchErrorFactory, use } from './decorator';
+import { controller, use, get, catchError } from '../decorator';
 import { getResponseData } from '../utils/util';
 import Crowller from '../utils/crowller';
 import Analyzer1 from '../utils/analyzer';
@@ -14,8 +14,8 @@ interface RequestWithBody extends Request {
 }
 
 // 登录校验中间件
-const checkLogin = (req: Request, res: Response, next: NextFunction) => {
-  const isLogin = req.session ? req.session.login : false;
+const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
+  const isLogin = !!(req.session ? req.session.login : false);
   if (isLogin) {
     next();
   } else {
@@ -25,11 +25,11 @@ const checkLogin = (req: Request, res: Response, next: NextFunction) => {
 };
 
 // 编译阶段阶段执行装饰器
-@controller
-class CrowllerController {
+@controller('/')
+export class CrowllerController {
   @get('/getData')
   @use(checkLogin)
-  getData(req: RequestWithBody, res: Response) {
+  getData(req: RequestWithBody, res: Response): void {
     const url = 'https://baidu.com';
     const analyzer = Analyzer1.getInstance();
     new Crowller(analyzer, url);
@@ -37,9 +37,9 @@ class CrowllerController {
   }
 
   @get('/showData')
-  @catchErrorFactory('数据不存在')
   @use(checkLogin)
-  showData(req: RequestWithBody, res: Response) {
+  @catchError('数据不存在')
+  showData(req: RequestWithBody, res: Response): void {
     // try {
     const position = path.resolve(__dirname, '../../data/imgData.json'); // 文件可能不存在，处理异常
     const result = fs.readFileSync(position, 'utf8');

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { Request, Response } from 'express';
-import { controller, get, post } from './decorator';
+import { controller, get, post } from '../decorator';
 import { getResponseData } from '../utils/util';
 
 interface RequestWithBody extends Request {
@@ -10,15 +10,18 @@ interface RequestWithBody extends Request {
 }
 
 // 编译阶段阶段执行装饰器
-@controller
-class LoginController {
+@controller('/')
+export class LoginController {
   // constructor() {}
+  static isLogin(req: Request): boolean {
+    return !!(req.session ? req.session.login : false);
+  }
 
   @post('/login')
-  login(req: RequestWithBody, res: Response) {
+  login(req: RequestWithBody, res: Response): void {
     const { password } = req.body; // body undefined，需要解析中间件body-parser。ts没有错误提示 express类型声明文件中req是any类型
     // 这里的 password 是any类型，改d.ts没有意义
-    const isLogin = req.session ? req.session.login : false;
+    const isLogin = LoginController.isLogin(req); // !!(req.session ? req.session.login : false);
 
     if (isLogin) {
       res.json(getResponseData(false, '已经登录过'));
@@ -38,7 +41,7 @@ class LoginController {
   }
 
   @get('/logout')
-  logout(req: Request, res: Response) {
+  logout(req: Request, res: Response): void {
     if (req.session) {
       req.session.login = undefined;
     }
@@ -48,8 +51,8 @@ class LoginController {
 
   @get('/')
   home(req: Request, res: Response) {
-    const isLogin = req.session ? req.session.login : false;
-
+    // const isLogin = !!(req.session ? req.session.login : false);
+    const isLogin = LoginController.isLogin(req);
     if (isLogin) {
       res.send(`
       <html>

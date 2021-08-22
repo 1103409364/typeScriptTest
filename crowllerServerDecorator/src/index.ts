@@ -3,8 +3,8 @@ import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
 import './controller/LoginController'; //让其中的装饰器执行一次（编译时执行），生成路由
 import './controller/CrowllerController';
-import { router } from './controller/decorator';
-// import router from './router';
+// import { router } from './controller/decorator';
+import router from './router';
 
 // express 等老的非ts 写的框架会有这些问题：
 // 问题 1: express 库的类型定义文件.d.ts 文件类型描述不准确
