@@ -45,7 +45,7 @@ export function controller(root: string = '/') {
         key
       );
       const handler = target.prototype[key]; //获取Controller 类中的方法
-      const middleware: RequestHandler = Reflect.getMetadata(
+      const middleware: RequestHandler[] = Reflect.getMetadata(
         'middleware',
         target.prototype,
         key
@@ -53,8 +53,8 @@ export function controller(root: string = '/') {
       // 动态生成路由
       if (path && method) {
         const fullPath = '/' === root ? path : `${root}${path}`;
-        if (middleware) {
-          router[method](fullPath, middleware, handler); // 如果有中间件，就带上中间件
+        if (middleware && middleware.length) {
+          router[method](fullPath, ...middleware, handler); // 如果有中间件，就带上中间件
         } else {
           router[method](fullPath, handler); // 访问path，执行handler
         }

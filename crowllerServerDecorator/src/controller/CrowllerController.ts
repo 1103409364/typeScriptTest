@@ -15,6 +15,7 @@ interface RequestWithBody extends Request {
 
 // 登录校验中间件
 const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
+  console.log('checkLogin中间件');
   const isLogin = !!(req.session ? req.session.login : false);
   if (isLogin) {
     next();
@@ -24,11 +25,17 @@ const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
+const test = (req: Request, res: Response, next: NextFunction): void => {
+  console.log('testMiddleware中间件');
+  next();
+};
+
 // 编译阶段阶段执行装饰器
 @controller('/')
 export class CrowllerController {
   @get('/getData')
   @use(checkLogin)
+  @use(test)
   getData(req: RequestWithBody, res: Response): void {
     const url = 'https://baidu.com';
     const analyzer = Analyzer1.getInstance();
