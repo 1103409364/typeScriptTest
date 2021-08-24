@@ -31,7 +31,7 @@ const test = (req: Request, res: Response, next: NextFunction): void => {
 };
 
 // 编译阶段阶段执行装饰器
-@controller('/')
+@controller('/api')
 export class CrowllerController {
   @get('/getData')
   @use(checkLogin)

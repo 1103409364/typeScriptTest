@@ -10,11 +10,16 @@ interface RequestWithBody extends Request {
 }
 
 // 编译阶段阶段执行装饰器
-@controller('/')
+@controller('/api')
 export class LoginController {
   // constructor() {}
   static isLogin(req: Request): boolean {
     return !!(req.session ? req.session.login : false);
+  }
+  @get('/isLogin')
+  isLogin(req: Request, res: Response): void {
+    const isLogin = LoginController.isLogin(req);
+    res.json(getResponseData(isLogin));
   }
 
   @post('/login')
@@ -24,7 +29,7 @@ export class LoginController {
     const isLogin = LoginController.isLogin(req); // !!(req.session ? req.session.login : false);
 
     if (isLogin) {
-      res.json(getResponseData(false, '已经登录过'));
+      res.json(getResponseData(true, '已经登录过'));
     } else {
       if (password === '123') {
         if (req.session) {
@@ -49,31 +54,31 @@ export class LoginController {
     res.json(getResponseData(true));
   }
 
-  @get('/')
-  home(req: Request, res: Response) {
-    // const isLogin = !!(req.session ? req.session.login : false);
-    const isLogin = LoginController.isLogin(req);
-    if (isLogin) {
-      res.send(`
-      <html>
-        <body>
-          <div> <a href="/getData">爬取内容</a> </div>
-          <div> <a href="/showData">查看内容内容</a> </div>
-          <div> <a href="/logout">退出</a> </div>
-        </body>
-      </html>
-      `);
-    } else {
-      res.send(`
-      <html>
-        <body>
-          <form method="post" action="/login">
-            <input type="password" name="password" />
-            <button>登录</button>
-          </form>
-        </body>
-      </html>
-      `);
-    }
-  }
-}
+//   @get('/')
+//   home(req: Request, res: Response) {
+//     // const isLogin = !!(req.session ? req.session.login : false);
+//     const isLogin = LoginController.isLogin(req);
+//     if (isLogin) {
+//       res.send(`
+//       <html>
+//         <body>
+//           <div> <a href="/getData">爬取内容</a> </div>
+//           <div> <a href="/showData">查看内容内容</a> </div>
+//           <div> <a href="/logout">退出</a> </div>
+//         </body>
+//       </html>
+//       `);
+//     } else {
+//       res.send(`
+//       <html>
+//         <body>
+//           <form method="post" action="/login">
+//             <input type="password" name="password" />
+//             <button>登录</button>
+//           </form>
+//         </body>
+//       </html>
+//       `);
+//     }
+//   }
+// }

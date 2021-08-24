@@ -1,0 +1,12 @@
+.btn-wrap {
+  width: 300px;
+  margin: 100px auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+img {
+  width: 100px;
+}
