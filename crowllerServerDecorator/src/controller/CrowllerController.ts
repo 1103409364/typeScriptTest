@@ -20,7 +20,7 @@ const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
   if (isLogin) {
     next();
   } else {
-    res.json(getResponseData(null, '请先登录'));
+    res.json(getResponseData<responseResult.checkLogin>(null, '请先登录'));
     // res.send('请先登录');
   }
 };
@@ -40,7 +40,7 @@ export class CrowllerController {
     const url = 'https://baidu.com';
     const analyzer = Analyzer1.getInstance();
     new Crowller(analyzer, url);
-    res.json(getResponseData(true));
+    res.json(getResponseData<responseResult.getData>(true));
   }
 
   @get('/showData')
@@ -51,7 +51,7 @@ export class CrowllerController {
     const position = path.resolve(__dirname, '../../data/imgData.json'); // 文件可能不存在，处理异常
     const result = fs.readFileSync(position, 'utf8');
 
-    res.json(getResponseData(JSON.parse(result)));
+    res.json(getResponseData<responseResult.showData>(JSON.parse(result)));
     // } catch (e) {
     //   res.json(getResponseData(false, '数据不存在'));
     // }

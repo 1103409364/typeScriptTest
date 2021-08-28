@@ -1,7 +1,8 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { Button, message } from "antd";
-import axios from "axios";
+// import axios from "axios";
+import request from "../../request";
 import "./style.css";
 
 interface State {
@@ -10,10 +11,10 @@ interface State {
   data: object;
 }
 
-interface Data {
-  src: string;
-  time: number;
-}
+// interface Data {
+//   src: string;
+//   time: number;
+// }
 
 class Home extends React.Component<{}, State> {
   constructor(props: {}) {
@@ -26,8 +27,10 @@ class Home extends React.Component<{}, State> {
   }
 
   checkLogin = async () => {
-    const res = await axios.get("/api/isLogin");
-    if (res.data) {
+    const res = await request.get("/api/isLogin");
+    const data: responseResult.isLogin = res.data;
+
+    if (data) {
       console.log("已登录");
       this.setState({ isLogin: true, loaded: true });
     } else {
@@ -37,27 +40,30 @@ class Home extends React.Component<{}, State> {
   };
 
   handleLogout = async () => {
-    const res = await axios.get("/api/logout");
+    const res = await request.get("/api/logout");
+    const data: responseResult.logout = res.data;
 
-    if (res.data?.data) {
+    if (data) {
       this.setState({ isLogin: false });
     }
   };
 
   handleCrowller = async () => {
-    const res = await axios.get("/api/getData");
+    const res = await request.get("/api/getData");
+    const data: responseResult.getData = res.data;
 
-    if (res.data?.data) {
+    if (data) {
       message.success("爬取成功");
     }
   };
 
   handleShowData = async () => {
-    const res = await axios.get("/api/showData");
+    const res = await request.get("/api/showData");
+    const data: responseResult.DataStructure = res.data;
 
-    if (res.data?.data) {
+    if (res.data) {
       console.log(res);
-      this.setState({ data: res.data.data });
+      this.setState({ data: data });
     }
   };
 

@@ -1,7 +1,8 @@
 // import React from "react";
 import "./login.css";
 import { Form, Input, Button, message } from "antd";
-import axios from "axios";
+// import axios from "axios";
+import request from "../../request";
 import qs from "qs";
 import { useHistory } from "react-router-dom";
 
@@ -16,13 +17,14 @@ const Demo = () => {
   const history = useHistory();
   const onFinish = async (values: FormData) => {
     console.log("Success:", values);
-    const res = await axios.post("/api/login", qs.stringify(values), {
+    const res = await request.post("/api/login", qs.stringify(values), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
+    const data: responseResult.login = res.data;
 
-    isLogin = res.data.data;
+    isLogin = data;
 
     if (isLogin) {
       history.replace("/");

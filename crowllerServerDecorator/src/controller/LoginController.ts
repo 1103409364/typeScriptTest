@@ -19,7 +19,8 @@ export class LoginController {
   @get('/isLogin')
   isLogin(req: Request, res: Response): void {
     const isLogin = LoginController.isLogin(req);
-    res.json(getResponseData(isLogin));
+    const result = getResponseData<responseResult.isLogin>(isLogin)
+    res.json(result);
   }
 
   @post('/login')
@@ -29,18 +30,18 @@ export class LoginController {
     const isLogin = LoginController.isLogin(req); // !!(req.session ? req.session.login : false);
 
     if (isLogin) {
-      res.json(getResponseData(true, '已经登录过'));
+      res.json(getResponseData<responseResult.login>(true, '已经登录过'));
     } else {
       if (password === '123') {
         if (req.session) {
           req.session.login = true;
-          res.json(getResponseData(true));
+          res.json(getResponseData<responseResult.login>(true));
         } else {
-          res.json(getResponseData(false, '登录失败'));
+          res.json(getResponseData<responseResult.login>(false, '登录失败'));
         }
       } else {
         // res.send('登录失败');
-        res.json(getResponseData(false, '登录失败'));
+        res.json(getResponseData<responseResult.login>(false, '登录失败'));
       }
     }
   }
@@ -51,7 +52,7 @@ export class LoginController {
       req.session.login = undefined;
     }
     // res.redirect('/');
-    res.json(getResponseData(true));
+    res.json(getResponseData<responseResult.logout>(true));
   }
 
 //   @get('/')
